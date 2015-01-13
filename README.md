@@ -1,2 +1,2 @@
 # Html5_Canvas
-Project for colledge
+Project for college
