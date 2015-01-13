@@ -14,6 +14,7 @@
     <!-- Bootstrap core CSS -->
     <link href="dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="dist/css/blog.css" rel="stylesheet">
+	
     <!-- Custom styles for this template -->
     
 
@@ -34,8 +35,8 @@
       <div class="container">
  <nav class="blog-nav">
           <a class="blog-nav-item " href="index.html">Uvod</a>
-          <a class="blog-nav-item" href="seminar.html">Seminar</a>
-          <a class="blog-nav-item" href="projekt.html">Projekt</a>
+          <a class="blog-nav-item active" href="seminar.html">Seminar</a>
+          <a class="blog-nav-item " href="projekt.html">Projekt</a>
           <a class="blog-nav-item" href="literatura.html">Literatura</a>
          
         </nav>
@@ -93,6 +94,17 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="dist/js/bootstrap.js"></script>
+		<script>
+	$(document).ready(function(){
+    $('.blog-nav-item').click(function() {
+	
+        $(this).siblings('blog-nav-item').removeClass('active');
+        $(this).addClass('active');
+    });
+});
+
+	</script>
 
   
 
