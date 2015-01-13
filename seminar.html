@@ -54,12 +54,27 @@
       
       <div class="row">
 
-        <div class="col-sm-8 blog-main">
+        <div class="col-sm-12 blog-main">
 
           <div class="blog-post">
-           
+		   <h2>Osnovi podaci o canvasu</h2>
+		     <ol>
+              <li>Canvas ima samo dvije dimenzije</li>
+              <li>Koordinate u gornjem lijevom kutu su (0,0)</li>
+              <li>getContext() metoda vraća objekt koji posjeduje metode i varijable za crtanje</li>
+			  <li>Canvas je samo okvir, a crta se pomoću javascripta</li>
+            </ol>
+		  <h2>Osnovi primjer korištenja canvasa</h2>
+		  <p>U ovom primjeru možemo vidjeti canvas element koji je veličine 300px*300px te u njemu iscrtavamo  objekte. Ukoliko želimo vidjeti dimenzije canvasa moramo podesiti obrub i boju canvasa jer se u protivnom neće vidjeti dimenzije canvasa. </p>
+           <canvas id="canvas" width="300" height="300" style="border:1px solid #000000;"></canvas>
+		   <pre><code> 
+var c = document.getElementById("canvas");// služi za pronalazak canvas elementa u DOM-u
+var ctx = c.getContext("2d");// canvas context je ugrađen u HTML5 canvas objekt te sadrži metode potrebne za crtanje
+ctx.fillStyle = "#FF0000";//postavljanje css boje, pattern-a, ili gradienta
+ctx.fillRect(0,0,150,75);// fillRect(x,y,width,height), služi za crtanje pravokutnika
+			</code></pre>
           
-
+ <canvas id="canvas2" width="400" height="300" style="border:1px solid #000000;"></canvas>
             <p>AAA</p>
    
             <ol>
@@ -95,8 +110,31 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script src="dist/js/bootstrap.js"></script>
-
+	<script src="dist/js/bootstrap.js"></script>
+	<script>
+	var c = document.getElementById("canvas");
+	var ctx = c.getContext("2d");
+	ctx.fillStyle = "#FF0000";
+	ctx.fillRect(0,0,150,75);
+	ctx.moveTo(0,0);
+	ctx.lineTo(200,100);
+	ctx.stroke();
+	
+	var grd=ctx.createRadialGradient(75,50,5,90,60,100);
+	grd.addColorStop(0,"red");
+	grd.addColorStop(1,"white");
+	ctx.arc(50, 150, 50, 0, 2*Math.PI);
+	ctx.fillStyle = grd;
+	ctx.fill();
+	ctx.stroke();
+	
+	canvas = document.getElementById("canvas2");
+context = canvas.getContext("2d");
+context.font = "60px Comic Sans MS";
+context.fillStyle = "blue";
+context.textAlign = "center";
+context.fillText("RG je zakon!", canvas.width/2, canvas.height/2);
+	</script>
 
   
 
