@@ -1,5 +1,5 @@
     var ort1;
-    var c1;    
+     
     var xLast1,yLast1,zLast1;
     var sx1,sy1,px1,py1;
     var XMIN1, XMAX1, YMIN1, YMAX1;
@@ -21,7 +21,7 @@
     {
         c1 = canvas2 .getContext('2d');
         c1.strokeStyle = 'black';
-        crtaj();
+        crtaj1();
     }
     
     function identitet()
@@ -37,11 +37,11 @@
         kamera1[3][3]=1;
     }
     
-    function crtaj()
+    function crtaj1()
     {
         identitet();
         ort1 = Ortho(c1,-10,10,-10,10,canvas2.width,canvas2.height);
-        c1.fillText("Rotacija kocke oko proizvoljne osi - drzite tipku A", 50, 50);        
+        c1.fillText("Trenutni kut rotacije = "+kut, 50, 50);        
         pravac();
         pomakni(5,5,5);
         identitet();
@@ -56,8 +56,9 @@
         if (e.keyCode === 65) { // A
         kut+=1;   
         c1.clearRect(0, 0, canvas2.width, canvas2.height);
-        crtaj();
+        crtaj1();
     }
+    if(kut===360)kut=0;
         
     }
     
@@ -94,6 +95,14 @@
     {
         postaviNa(2,-5,2);
         linijaDo(-3,5,-3);
+    }
+    
+    function recrtaj()
+    {
+        kut+=1;   
+        c1.clearRect(0, 0, canvas2.width, canvas2.height);        
+        crtaj1();
+        
     }
     
    function izradiMatricu(numrows, numcols, initial){

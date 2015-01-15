@@ -60,11 +60,34 @@
 
         <div class="col-sm-8 blog-main">
 
+            <div id="teorija">
+                
+                <p>Dio za stvaranje koordinatnog sustava</p>
+                TODO
+                <hr>
+                <p>Dio za objasnjenje premjesti, rotiraj metoda</p>
+                TODO    
+                <hr>
+                
+            </div>
+            
+            
           <div class="blog-post">
            
-          
-<div id="pr">
+              <p>Matrične reprezentacije geometrijskih transformacija u 3D</p>
+              <p>U ovom dijelu ćemo Vam prikazati na koji način ručno nacrtati 3D objekte u 2D Canvas-u. </p>
+              Prvo je trebalo na 2d ekranu (500x500) omogućiti prikaz modela sa 3 dimenzije. Ovo se realiziralo na način da se z-os ignorira te se 3D efekat dobije tek nakon rotiranja objekta.
+              Praktičan primjer možete vidjeti na primjeru kocke.
+    <div id="pr">
+        <hr>
    
+    <p style="color: red">Primjer pretvorbe modela kocke iz 2D u 3D</p>
+    <p>Kontrole (velika slova):<br>
+        OS X = +H -Z<br>
+        OS Y = +J -U<br>
+        OS Z = +K -I <br>
+        Reset = R
+    </p>
     <canvas itemid="prvi" id="prvi" width="500" height="500">
             
     </canvas>
@@ -73,6 +96,14 @@
     <hr>
     <div id="dr">
     
+        
+        <p style="color: red">Primjer rotacije kocke oko proizvoljne osi</p>
+        <p>
+            Na sljedećom Canvas elemntu možete vidjeti kocku koja na početku izgleda kao kvadrat. Na slici je također prikazan i pravac koji je određen
+            točkom (x1,y1,z1) i svojim vektorom smijera(u1,u2,u3). Da bi se vidjela 3d rotacija oko proizvoljnog pravca trebate pritisnuti tipku "A" (veliko a) 
+            da bi se kut rotacije povećao za 1 stupanj. Ukoliko želite da cijela stvar izgleda kao animacija tada je potrebno držati pritisnutu navedenu tipku.
+            
+    </p>
         <canvas itemid="drugi" id="drugi" width="500" height="500">
             
     </canvas>

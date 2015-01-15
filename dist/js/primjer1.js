@@ -1,5 +1,6 @@
     var ort;
     var c;    
+    var c1;   
     var xLast,yLast,zLast;
     var sx,sy,px,py;
     var XMIN, XMAX, YMIN, YMAX;
@@ -11,9 +12,11 @@
     var kuty=0;
     var kutz=0;
     var canvas;
- window.onload = function func() {
-        func1(); //DRUGI PRIMJER
+    window.onload = function func() {
+        
         window.addEventListener("keypress", pritisni, true);
+        
+        func1(); //DRUGI PRIMJER
         matrica = izradiMatricu(4,4,0);
         kamera = izradiMatricu(4,4,0);
     
@@ -48,11 +51,9 @@
         identitet();
         
         ort = Ortho(c,-5,5,-5,5,canvas.width,canvas.height);
-        c.fillText("Rotacija x (+H -Z) = " +kutx, 75, 50);
-        c.fillText("Rotacija y (+J -U) = " +kuty, 200, 50);
-        c.fillText("Rotacija z (+K -I) = " +kutz, 325, 50);
-        c.fillText("Reset -R", 200, 25);
-        
+        c.fillText("X = " +kutx, 75, 50);
+        c.fillText("Y = " +kuty, 200, 50);
+        c.fillText("Z = " +kutz, 325, 50);
         rotirajX(kutx);
         rotirajY(kuty);
         rotirajZ(kutz);
@@ -105,6 +106,7 @@
         c.clearRect(0, 0, canvas.width, canvas.height);
         crtaj();
     } 
+    
         
     }
     
