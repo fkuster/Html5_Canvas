@@ -97,13 +97,6 @@
         linijaDo(-3,5,-3);
     }
     
-    function recrtaj()
-    {
-        kut+=1;   
-        c1.clearRect(0, 0, canvas2.width, canvas2.height);        
-        crtaj1();
-        
-    }
     
    function izradiMatricu(numrows, numcols, initial){
    var arr = [];
@@ -275,100 +268,6 @@
         c1.stroke();
         
     }
-    
-    function postaviBoju(c) 
-    {
-        c1.strokeStyle = c;
-    }    
-   
-    
-    function trans(m)
-    {
-        matrica1 = mnozi_matrice(kamera1,m.getMatrica());
-        
-    }
-    
-   function VP (u, v)
-    {
-         var vek = [3];
-        //double [] vek= new double[3];
-        vek[0]=u[1]*v[2]-u[2]*v[1];
-        vek[1]=u[2]*v[0]-u[0]*v[2];
-        vek[2]=u[0]*v[1]-u[1]*v[0];
-        return vek;
-    }
-    
-    function  mnozi_matrice(m1,m2)
-    {
-        var r1=m1.length;
-        var s1=m1[0].length;
-        var s2=m2[0].length;
-        var m = izradiMatricu(r1,s2,0);
-        for(var i=0;i<r1;i++)
-        {
-            for(var j=0;j<s2;j++)
-            {
-                for(var k=0;k<s1;k++)
-                    {
-                        m[i][j]+=m1[i][k]*m2[k][j];
-                    }
-            }
-        }
-        return m;
-    }
-    
-   function KSK (x0,y0, z0, x1, y1, z1, Vx, Vy, Vz)
-    {
-        var V=[3];
-        V[0]=Vx;
-        V[1]=Vy;
-        V[2]=Vz;
-        var normaN = Math.sqrt((x0-x1)*(x0-x1)+(y0-y1)*(y0-y1)+(z0-z1)*(z0-z1));
-        
-        var n =[];
-        n[0]=(x0-x1)/normaN;
-        n[1]=(y0-y1)/normaN;
-        n[2]=(z0-z1)/normaN;
-        var U=[];
-        U=VP(V,n);
-        var normaU = Math.sqrt(U[0]*U[0]+U[1]*U[1]+U[2]*U[2]);
-        
-        var u =[3];
-        u[0]=U[0]/normaN;
-        u[1]=U[1]/normaN;
-        u[2]=U[2]/normaN;
-        var v=[];
-        v=VP(n,u);
-        
-        var mtr = izradiMatricu(4,4,0);
-        //
-        mtr[0][0]=u[0];
-        mtr[0][1]=u[1];
-        mtr[0][2]=u[2];
-        mtr[0][3]=-u[0]*x0-u[1]*y0-u[2]*z0;
-        
-        mtr[1][0]=v[0];
-        mtr[1][1]=v[1];
-        mtr[1][2]=v[2];
-        mtr[1][3]=-n[0]*x0-n[1]*y0-n[2]*z0;
-        
-        mtr[2][0]=n[0];
-        mtr[2][1]=n[1];
-        mtr[2][2]=n[2];
-        mtr[2][3]=-n[0]*x0-n[1]*y0-n[2]*z0;
-        
-        mtr[3][3]=1;
-        kamera1=mtr;
-        matrica1=mtr;
-        
-    }
-    
-    
-    
-    //////////////////////////////////////////////////////////////////////
-    
-
-    
     
     
     }

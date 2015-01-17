@@ -62,19 +62,194 @@
 
             <div id="teorija">
                 
-                <p>Dio za stvaranje koordinatnog sustava</p>
-                TODO
-                <hr>
-                <p>Dio za objasnjenje premjesti, rotiraj metoda</p>
-                TODO    
+                <p style="color: red">Koordinatni sustav</p>
+                
+                <div>
+                    Kao što ste mogli primjetiti kod prijašnjeg dijela "Biblioteke" susrećemo se sa problemom da moramo na 2D canvasu prikazati
+                    3D objekte. Drugi problem su koordinate samog Canvas elementa u HTML5. Iz slike možemo vidjeti da canvas predstavlja zapravo
+                    samo jedan kvadrant koordinatnog sustava.
+                    <img src="dist/pictures/cord.png" alt="cord">
+                    Problemi su sljedeći:
+                    
+                    <ol>
+                        <li>ishodište nije u sredini, već u gornjem lijevom uglu</li>
+                        <li>poseban problem je os y na kojoj vrijednosti rastu prema dolje</li>                        
+                        <li>kako je rezolucija uvijek konačna, tako je i raspon koordinata obično ograničen 
+                            sa postavkama koje smo postavili kod definiranja canvas elementa (npr.width="500" height="500") </li>
+                    </ol>
+                    
+                     Da bi pretvorili koordinate canvas u Kartezijev koordinatni sustav trebamo u svakom JavaScriptu
+                    s kojim crtamo objekte, prije samog crtanja objekata napraviti određene postupke za realizaciju Kartezijevog koordinatnog sustava, 
+                    implementirati metode za crtanje, rotaciju, translaciju i sl.
+                    
+                    <hr>
+                    Zbog toga smo napravili metodu koja nam olakšava transformaciju Canvas koordinatnog sustava u Kartezijev koordinatni sustav.
+                    <pre><code> 
+function Ortho(g,xmin, xmax, ymin, ymax, xsize, ysize) 
+    {
+        sx = xsize/(xmax-xmin);
+        sy = ysize/(ymin-ymax);
+        px = -sx*xmin;
+        py = -sy*ymax;
+        gr = g;
+        XMIN = xmin;
+        XMAX = xmax;
+        YMIN = ymin;
+        YMAX = ymax;
+    }</code></pre>
+                    
+                    XMIN, XMAX,YMIN i YMAX nam služe da bi odredili duljine X i Y osi. Argumenti xsize i ysize predstavljaju širinu i dužinu canvas 
+                    elementa koji smo kreirali prije (npr.width="500" height="500"). <br>
+                    
+                    Sada kada smo to kreirali željeni koordinatni sustav i želimo nešto nacrtati u njemu opet nam se javlja problem jer koordinate nisu 
+                    u dobrim kvadrantima (npr. (1,1) je u 4. kvadrantu i sl.).
+                    
+                    Uoubičajeni kod za crtanje linija nije dobar.
+                    <hr>
+                    Canvasova metoda za crtanje 
+                    <code><pre>canvas = document.getElementById("naziv_naseg_canvasa");
+c = canvas.getContext('2d');
+c.moveTo(x1,y1);
+c.lineTo(x2,y2); </code></pre>
+                        
+                        <hr>
+                        Trebaju nam vlastite metode za pretvorbu naših kordinata na koordinate zaslona. Nakon što kreiramo metode
+                        koje nam to pretvaraju moramo također implementirati funkcije koja će zamjeniti "moveTo" i "lineTo" metode. 
+                        Sve ovo dodatno popraćuje matrica (4x4 zbog translacije) koja omogućava translaciju, rotaciju i skaliranje kod crtanja.
+                        
+                        <code><pre>
+    function x_to_pix(x) 
+    {
+        return parseInt(sx*x+px);
+    }
+    
+    function y_to_pix(y) 
+    {
+        return parseInt(sy*y+py);
+    }
+    
+   function postaviNa(x, y, z) 
+    {
+        xLast = matrica[0][0]*x + matrica[0][1]*y + matrica[0][2]*z+matrica[0][3];
+        yLast = matrica[1][0]*x + matrica[1][1]*y + matrica[1][2]*z+matrica[1][3];
+        zLast = matrica[2][0]*x + matrica[2][1]*y + matrica[2][2]*z+matrica[2][3];
+    }   
+    
+    function linijaDo(x, y, z) 
+    {
+        var x1, y1, x2, y2;
+        x1 = x_to_pix(xLast);
+        y1 = y_to_pix(yLast);
+        xLast = matrica[0][0]*x + matrica[0][1]*y + matrica[0][2]*z+matrica[0][3];
+        yLast = matrica[1][0]*x + matrica[1][1]*y + matrica[1][2]*z+matrica[1][3];
+        zLast = matrica[2][0]*x + matrica[2][1]*y + matrica[2][2]*z+matrica[2][3];
+        x2 = x_to_pix(xLast);
+        y2 = y_to_pix(yLast);
+        
+        c.lineWidth = 1;
+        c.beginPath();        
+        c.moveTo(x1,y1);
+        c.lineTo(x2,y2);
+        
+        c.stroke();
+        
+    }    
+</code></pre>    
+                </div>
+                
                 <hr>
                 
+                <p style="color: red">Metode potrebne za crtanje i rotaciju/translaciju 3D objekata.</p>
+                Nakon što smo imeplementirali metode za realizaciju koordinatnog sustava, pretvorbi točaka i metoda za crtanje preostaje nam samo još 
+                implementirati metode za translaciju i rotaciju objekata (pošto su one jedine bile potrebne u ovom projektu).
+                
+                
+                <hr>
+                Metoda za rotaciju oko osi X
+                <code><pre>
+function rotirajX (kut)
+    {        
+        var fi = kut * Math.PI / 180;
+        var cosfi=Math.cos(fi);
+        var sinfi=Math.sin(fi); 
+        
+        var m1  = izradiMatricu(4,4,0);
+        m1[0][0]=1;
+        m1[1][1]=cosfi;
+        m1[1][2]=-sinfi;
+        m1[2][1]=sinfi;
+        m1[2][2]=cosfi;
+        m1[3][3]=1;
+        
+        mult(m1);
+    }</code></pre>  
+                
+                <hr>
+                Metoda za rotaciju oko osi Y
+                <code><pre>
+function rotirajY (kut)
+    {
+        var fi = kut * Math.PI / 180;
+        var cosfi=Math.cos(fi);
+        var sinfi=Math.sin(fi);    
+
+        var m1  = izradiMatricu(4,4,0);
+        m1[0][0]=cosfi;
+        m1[0][2]=sinfi;
+        m1[1][1]=1;
+        m1[2][0]=-sinfi;
+        m1[2][2]=cosfi;
+        m1[3][3]=1;
+        mult(m1);
+    }</code></pre>  
+                
+                <hr>
+                Metoda za rotaciju oko osi Z
+                <code><pre>
+function rotirajZ (kut)
+    {
+        var fi = kut * Math.PI / 180;
+        var cosfi=Math.cos(fi);
+        var sinfi=Math.sin(fi);  
+
+        var m1  = izradiMatricu(4,4,0);
+        m1[0][0]=cosfi;
+        m1[0][1]=-sinfi;
+        m1[1][0]=sinfi;
+        m1[1][1]=cosfi;
+        m1[2][2]=1;
+        m1[3][3]=1;
+        mult(m1);
+    }</code></pre>  
+                
+                <hr>
+                Metoda za translaciju
+                <code><pre>
+function pomakni(px, py, pz)
+    {
+        var m1  = izradiMatricu(4,4,0);
+        m1[0][0]=1;
+        m1[1][1]=1;
+        m1[2][2]=1;
+        m1[3][3]=1;
+        m1[0][3]=px;
+        m1[1][3]=py;
+        m1[2][3]=pz;
+        mult(m1);
+    }</code></pre>  
+                
+                <hr>
+                Iz ovih 4 metoda vidimo da nam se javljaju još dvije metode "izradiMatricu(a,b,c)" i "mult(m)" pa ćemo ih stoga objasniti.
+                Metoda "izradiMatricu(a,b,c)" nam kreira dvodimenzionalnu matricu pošto JavaScript nema dvodimenzionalne matrice kao tip podataka. Argumenti a 
+                b označavaju dimenzije matrice a vrijednost c označuje inicijalne vrijednosti svakog elementa matrice (izradiMatricu(4,4,0) smo mi 
+                koristili u našem primjeru. Metoda "mult(m)" nam služi za zapisivanje određenih transformacija u matricu tako da bi poslije kod crtanja znali
+                da li smo rotirali, premjestili ili oboje prije samog crtanja objekta.
             </div>
-            
+            <hr>
             
           <div class="blog-post">
            
-              <p>Matrične reprezentacije geometrijskih transformacija u 3D</p>
+              <p style="color: red">Matrične reprezentacije geometrijskih transformacija u 3D</p>
               <p>U ovom dijelu ćemo Vam prikazati na koji način ručno nacrtati 3D objekte u 2D Canvas-u. </p>
               Prvo je trebalo na 2d ekranu (500x500) omogućiti prikaz modela sa 3 dimenzije. Ovo se realiziralo na način da se z-os ignorira te se 3D efekat dobije tek nakon rotiranja objekta.
               Praktičan primjer možete vidjeti na primjeru kocke.
@@ -91,6 +266,8 @@
     <canvas itemid="prvi" id="prvi" width="500" height="500">
             
     </canvas>
+    <br>
+    <a href="dist/js/primjer1.js">JavaScript kod</a>
     </div>
     
     <hr>
@@ -107,6 +284,9 @@
         <canvas itemid="drugi" id="drugi" width="500" height="500">
             
     </canvas>
+    <br>
+    <a href="dist/js/primjer2.js">JavaScript kod</a>
+    <hr>
     </div>
            
           </div><!-- /.blog-post -->

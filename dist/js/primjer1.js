@@ -7,7 +7,6 @@
     var gr;
     
     var matrica;
-    var kamera;
     var kutx=0;
     var kuty=0;
     var kutz=0;
@@ -18,7 +17,6 @@
         
         func1(); //DRUGI PRIMJER
         matrica = izradiMatricu(4,4,0);
-        kamera = izradiMatricu(4,4,0);
     
     
     
@@ -39,11 +37,7 @@
         matrica[0][0]=1;
         matrica[1][1]=1;
         matrica[2][2]=1;
-        matrica[3][3]=1;        
-        kamera[0][0]=1;
-        kamera[1][1]=1;
-        kamera[2][2]=1;
-        kamera[3][3]=1;
+        matrica[3][3]=1;       
     }
     
     function crtaj()
@@ -155,8 +149,6 @@
         matrica[3][3]=1;
     }
     
-    
-    
     function pomakni(px, py, pz)
     {
         var m1  = izradiMatricu(4,4,0);
@@ -257,19 +249,6 @@
 
         
     }
-    
-    //////////////////////////////////////////////////////////////////////
-    //tu pocinje ortho
-    
-    
-
-    
-        
-    //private double [][]kamera = {{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}};
-    
-    //private double [][] matrica = {{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}};
-    
-    //konstruktor
     function Ortho(g,xmin, xmax, ymin, ymax, xsize, ysize) 
     {
         sx = xsize/(xmax-xmin);
@@ -283,10 +262,6 @@
         YMAX = ymax;
     }
     
-    
-    
-    
-//pretvaranje koordinata iz prirodnih u pixele
     function x_to_pix(x) 
     {
         return parseInt(sx*x+px);
@@ -322,113 +297,5 @@
         
         c.stroke();
         
-    }
-    
-    function postaviBoju(c) 
-    {
-        c.strokeStyle = c;
     }    
-   
-    
-    function trans(m)
-    {
-        //matrica = m.getMatrica();
-        matrica = mnozi_matrice(kamera,m.getMatrica());
-        
-    }
-    
-   function VP (u, v)
-    {
-         var vek = [3];
-        //double [] vek= new double[3];
-        vek[0]=u[1]*v[2]-u[2]*v[1];
-        vek[1]=u[2]*v[0]-u[0]*v[2];
-        vek[2]=u[0]*v[1]-u[1]*v[0];
-        return vek;
-    }
-    
-    function  mnozi_matrice(m1,m2)
-    {
-        var r1=m1.length;
-        var s1=m1[0].length;
-        var s2=m2[0].length;
-        var m = izradiMatricu(r1,s2,0);
-        for(var i=0;i<r1;i++)
-        {
-            for(var j=0;j<s2;j++)
-            {
-                for(var k=0;k<s1;k++)
-                    {
-                        m[i][j]+=m1[i][k]*m2[k][j];
-                    }
-            }
-        }
-        return m;
-    }
-    
-   function KSK (x0,y0, z0, x1, y1, z1, Vx, Vy, Vz)
-    {
-        var V=[3];
-        V[0]=Vx;
-        V[1]=Vy;
-        V[2]=Vz;
-        var normaN = Math.sqrt((x0-x1)*(x0-x1)+(y0-y1)*(y0-y1)+(z0-z1)*(z0-z1));
-        
-        var n =[];
-        n[0]=(x0-x1)/normaN;
-        n[1]=(y0-y1)/normaN;
-        n[2]=(z0-z1)/normaN;
-        var U=[];
-        U=VP(V,n);
-        //double [] U = VP(V,n);
-        var normaU = Math.sqrt(U[0]*U[0]+U[1]*U[1]+U[2]*U[2]);
-        
-        var u =[3];
-        u[0]=U[0]/normaN;
-        u[1]=U[1]/normaN;
-        u[2]=U[2]/normaN;
-        
-        //double [] u = {U[0]/normaN,U[1]/normaN,U[2]/normaN};
-        var v=[];
-        v=VP(n,u);
-        
-        //double [] v = VP(n,u);
-        var mtr = izradiMatricu(4,4,0);
-        //
-        mtr[0][0]=u[0];
-        mtr[0][1]=u[1];
-        mtr[0][2]=u[2];
-        mtr[0][3]=-u[0]*x0-u[1]*y0-u[2]*z0;
-        
-        mtr[1][0]=v[0];
-        mtr[1][1]=v[1];
-        mtr[1][2]=v[2];
-        mtr[1][3]=-n[0]*x0-n[1]*y0-n[2]*z0;
-        
-        mtr[2][0]=n[0];
-        mtr[2][1]=n[1];
-        mtr[2][2]=n[2];
-        mtr[2][3]=-n[0]*x0-n[1]*y0-n[2]*z0;
-        
-        mtr[3][3]=1;
-        
-        
-        //
-        //double [][] mtr = {{u[0],u[1],u[2],-u[0]*x0-u[1]*y0-u[2]*z0},
-         //                  {v[0],v[1],v[2],-v[0]*x0-v[1]*y0-v[2]*z0},
-         //                  {n[0],n[1],n[2],-n[0]*x0-n[1]*y0-n[2]*z0},
-         //                  {0,0,0,1}};
-        kamera=mtr;
-        matrica=mtr;
-        
-    }
-    
-    
-    
-    //////////////////////////////////////////////////////////////////////
-    
-
-    
-    
-    
     }
