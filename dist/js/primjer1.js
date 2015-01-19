@@ -16,6 +16,7 @@
         window.addEventListener("keypress", pritisni, true);
         
         func1(); //DRUGI PRIMJER
+        func2();//treci primjer
         matrica = izradiMatricu(4,4,0);
     
     

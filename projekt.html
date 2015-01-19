@@ -14,6 +14,7 @@
 
 	<script src="dist/js/primjer1.js"></script>
     	<script src="dist/js/primjer2.js"></script>
+        <script src="dist/js/primjer3.js"></script>
 
     <!-- Bootstrap core CSS -->
     <link href="dist/css/bootstrap.min.css" rel="stylesheet">
@@ -289,6 +290,78 @@ function pomakni(px, py, pz)
     <hr>
     </div>
            
+    <div>
+        <p style="color: red">Primjer rotacije kocke oko proizvoljne osi - animacija slijeda</p>
+        <p>
+            Na sljedećom Canvas elemntu možete vidjeti kocku koja na početku izgleda kao kvadrat. Na slici je također prikazan i pravac koji je određen
+            točkom (x1,y1,z1) i svojim vektorom smijera(u1,u2,u3). Za pokretanje animacije slijeda pritisnite tipku "S" (veliko S). Svake dvije sekunde
+            će se odvijati jedna od 7 transformacija koje su potrebne da bi mogli ostvariti 3D rotaciju objekta oko proizvoljne osi.
+            
+    </p>
+    <hr>
+    <p>
+           Da bi cijela stvar bila moguća trebamo odrediti gde ćemo nacrtati kocku i pravac oko kojeg ćemo ju rotirati.
+           U našem primjeru kocka se nalazi u središtu koordinatnog sustava sa duljinom stranice 3 (njezine koordinate vrhova su (3,3,3),(3,3,-3) itd).
+           Da bi odredili pravac u 3D prostoru možemo ga definirat na više načina:
+    <ol>
+        <li>točkom i vektorom smijera</li>
+        <li>dvjema točkama na pravcu</li>
+        <li>itd...</li>
+    </ol>
+    Mi smo odredili naš pravac na prvi način:
+    
+    <ol>
+        <li>Točka na pravcu: (2,-5,3)    </li>
+        <li>Vektor smijera: (-3,5-3) </li>
+    </ol>
+            
+    <hr>
+    </p>
+    <p>
+            Cijela stvar se realizira na način da se prije crtanja kocke odrade transformacije translacije i rotacije te nakon toga se crta 3D objekt.
+            Postupak se sastoji od 7 koraka
+            <ol>
+            <li>Korak 1: pomakni(2,-5,2);</li>
+            <li>Korak 2: rotirajX(-alfa);</li>
+            <li>Korak 3: rotirajY(beta);</li>
+            <li>Korak 4: rotirajZ(fi);</li>
+            <li>Korak 5: rotirajY(-beta);</li>
+            <li>Korak 6: rotirajX(alfa);</li>
+            <li>Korak 7: pomakni(-2,5,-2);</li>
+    </ol>
+    
+    Da bi dobili kuteve alfa i beta (kut fi je kut rotacije objekta koji mi zadajemo) trebamo ih izračunati.
+    Implementirali smo vlastite funkcije koje nam to računaju te ih možete vidjeti odmah ispod:
+    
+    
+    <code><pre>
+function izracunaj(x1,y1,z1,x2,y2,z2)
+    {
+        var nazivnik = Math.sqrt(((x2-x1)*(x2-x1))+((y2-y1)*(y2-y1))+((z2-z1)*(z2-z1)));
+        u1=(x2-x1)/nazivnik;
+        u2=(y2-y1)/nazivnik;
+        u3=(z2-z1)/nazivnik;
+
+        var fi =nas_zadani_kut;
+        var d = Math.sqrt((u2*u2)+(u3*u3));
+
+        var alfa=(Math.asin(u2/d))*(180/3.14);
+        var beta=(Math.asin(u1))*(180/3.14);
+        
+    }
+
+</code></pre>  
+    
+    </p>
+    <hr>
+    
+    <canvas itemid="treci" id="treci" width="500" height="500">
+            
+    </canvas>
+    <hr>
+    <a href="dist/js/primjer3.js">JavaScript kod</a>
+    
+        </div>
           </div><!-- /.blog-post -->
 		  
 		

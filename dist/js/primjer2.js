@@ -6,7 +6,6 @@
     var gr1;
     
     var matrica1;
-    var kamera1;
     var kut=0;
     
     var canvas2;
@@ -14,7 +13,6 @@
     function func1() {
         window.addEventListener("keypress", pritisni2, true);
         matrica1 = izradiMatricu(4,4,0);
-        kamera1 = izradiMatricu(4,4,0);
     
     canvas2 = document.getElementById("drugi");
     if (canvas2.getContext)
@@ -30,11 +28,6 @@
         matrica1[1][1]=1;
         matrica1[2][2]=1;
         matrica1[3][3]=1;
-        
-        kamera1[0][0]=1;
-        kamera1[1][1]=1;
-        kamera1[2][2]=1;
-        kamera1[3][3]=1;
     }
     
     function crtaj1()
