@@ -11,17 +11,17 @@
     
     var canvas3;
     var ab, bb, cc;
-    
+    var broj_sek=2000;
     var korak=1;
+    var myVar;
     function func2() {
         window.addEventListener("keypress", pritisni3, true);
         matrica2 = izradiMatricu(4,4,0);
-        kut=0;
     canvas3 = document.getElementById("treci");
     if (canvas3.getContext)
     {
         c2 = canvas3 .getContext('2d');
-        ort2 = Ortho(c2,-10,10,-10,10,canvas3.width,canvas3.height);
+        ort2 = Ortho(c2,-9,9,-9,9,canvas3.width,canvas3.height);
         izracunaj(2,-5,2,-3,5,-3);
         crtaj2();
     }
@@ -32,18 +32,27 @@
         
         identitet();
         c2.clearRect(0, 0, canvas3.width, canvas3.height);
-        c2.fillText("Animacija slijeda transformacija", 50, 50); 
-        c2.fillText("Trenutni kut rotacije"+kut2, 50, 10);
-        c2.fillText("Kocka je duljine stranice 3", 300, 10);
-        c2.fillText("Tocka na pravcu (2,-5,-3)", 300, 50);
-        c2.fillText("Vektor smijera pravca (-3,5,-3)", 300, 100);
-        c2.strokeStyle = 'blue';
-        kor_osi();
-        c2.strokeStyle = 'green';
+        c2.fillText("Animacija slijeda transformacija", 50, 10); 
+        c2.fillText("Trenutni kut rotacije = "+kut2, 50, 20);
+        c2.fillText("Kocka je duljine stranice 2", 50, 30);
+        c2.fillText("Pravac odreden tockama(2,-5,2)(-3,5,-3)", 50, 40);   
+        c2.fillText("OS X - zelena boja", 50, 50);
+        c2.fillText("OS Y - ljubicasta boja", 50, 60);
+        c2.fillText("OS Z - plava boja", 50, 70);
+        c2.fillText("PRAVAC - deblja crna boja", 50, 80);
+        
+        c2.fillText("KONTROLE:", 300, 10);
+        c2.fillText("S - start animacije:", 300, 30);
+        c2.fillText("D - pauza animacije:", 300, 50);
+        c2.fillText("F - reset cijele animacije:", 300, 70);
+        
+        
+        c2.strokeStyle = 'black';
         pravac();
         rotiraj(2,-5,2,aa,bb,cc,kutt);
+        kor_osi2();
         c2.strokeStyle = 'red';
-        kocka3d(3);
+        kocka3d(2);
         identitet();
         c2.strokeStyle = 'black';
     }
@@ -65,7 +74,7 @@
             c2.fillText("Korak 1 = pomakni(2,-5,2)", 50, 100);
             rotiraj(2,-5,2,aa,bb,cc,kutt); 
             pomakni(2,-5,2);
-            kocka3d(3);
+            kocka3d(2);
             korak+=1;
         }
         break;
@@ -76,7 +85,7 @@
         rotiraj(2,-5,2,aa,bb,cc,kutt);
             pomakni(2,-5,2);        
             rotirajX(-alfa);
-            kocka3d(3);
+            kocka3d(2);
             korak+=1;
         }
         break;
@@ -85,11 +94,11 @@
             
             crtaj2();
             c2.fillText("Korak 3 =  rotirajY(beta)", 50, 100);
-        rotiraj(2,-5,2,aa,bb,cc,kutt);
+            rotiraj(2,-5,2,aa,bb,cc,kutt);
             pomakni(2,-5,2);        
             rotirajX(-alfa);
             rotirajY(beta);
-            kocka3d(3);
+            kocka3d(2);
             korak+=1;
         }        
         break;
@@ -98,12 +107,12 @@
             
             crtaj2();
             c2.fillText("Korak 4 =  rotirajZ(fi)", 50, 100);
-        rotiraj(2,-5,2,aa,bb,cc,kutt);
+            rotiraj(2,-5,2,aa,bb,cc,kutt);
             pomakni(2,-5,2);        
             rotirajX(-alfa);
             rotirajY(beta);
             rotirajZ(fi);
-            kocka3d(3);
+            kocka3d(2);
             korak+=1;
         }        
         break;
@@ -111,13 +120,13 @@
         {            
             crtaj2();
             c2.fillText("Korak 5 =  rotirajY(-beta)", 50, 100);
-        rotiraj(2,-5,2,aa,bb,cc,kutt);
+            rotiraj(2,-5,2,aa,bb,cc,kutt);
             pomakni(2,-5,2);        
             rotirajX(-alfa);
             rotirajY(beta);
             rotirajZ(fi);
             rotirajY(-beta);
-            kocka3d(3);
+            kocka3d(2);
             korak+=1;
         }        
         break;
@@ -125,14 +134,14 @@
         { 
             crtaj2();
             c2.fillText("Korak 6 =  rotirajX(alfa)", 50, 100);
-        rotiraj(2,-5,2,aa,bb,cc,kutt);
+            rotiraj(2,-5,2,aa,bb,cc,kutt);
             pomakni(2,-5,2);        
             rotirajX(-alfa);
             rotirajY(beta);
             rotirajZ(fi);
             rotirajY(-beta);
             rotirajX(alfa);
-            kocka3d(3);
+            kocka3d(2);
             korak+=1;
            }        
            break;
@@ -147,7 +156,7 @@
             rotirajY(-beta);
             rotirajX(alfa);
             pomakni(-2,5,-2);
-            kocka3d(3);
+            kocka3d(2);
             korak=1;
             kutt+=10;
         }        
@@ -155,6 +164,7 @@
     default:
         {break;}
     }
+    kor_osi();
          
         if(kut2===360)kut2=0;
         if(kutt===360)kutt=0
@@ -164,14 +174,33 @@
     {        
         
         if (e.keyCode === 83) { // A 
-        var myVar=setInterval(function () {myTimer()}, 2000);
+        myVar=setInterval(function () {myTimer()},broj_sek);
 
     }
+        
+        if(e.keyCode===68)//+
+        {
+            
+              myStopFunction();
+            
+        }
+        
+        if(e.keyCode===70)//+
+        {
+            
+              myStopFunction();
+              korak=1;
+              kut2=0;
+              kutt=0;
+              crtaj2();
+        }
 
         
     }
     
-    
+    function myStopFunction() {
+    clearInterval(myVar);
+}
     function identitet()
     {
         matrica2 = izradiMatricu(4,4,0);
@@ -212,17 +241,66 @@
     
     function pravac()
     {
+        
+        
         postaviNa(2,-5,2);
-        linijaDo(-3,5,-3);
+        
+        var x1, y1, x2, y2;
+        x1 = x_to_pix(xLast2);
+        y1 = y_to_pix(yLast2);
+        xLast2 = matrica2[0][0]*-3 + matrica2[0][1]*5 + matrica2[0][2]*-3+matrica2[0][3];
+        yLast2 = matrica2[1][0]*-3 + matrica2[1][1]*5 + matrica2[1][2]*-3+matrica2[1][3];
+        zLast2 = matrica2[2][0]*-3 + matrica2[2][1]*5 + matrica2[2][2]*-3+matrica2[2][3];
+        x2 = x_to_pix(xLast2);
+        y2 = y_to_pix(yLast2);
+        
+        c2.lineWidth = 3;
+        c2.beginPath();        
+        c2.moveTo(x1,y1);
+        c2.lineTo(x2,y2);
+        
+        c2.stroke();
+        
     }
     
     function kor_osi()
     {
-        postaviNa(-10,0,0);
-        linijaDo(10,0,0);
+        c2.strokeStyle = 'green';
+        postaviNa(-5,0,0);
+        linijaDo(5,0,0);
         
-        postaviNa(0,-10,0);
-        linijaDo(0,10,0);
+        c2.strokeStyle = 'purple';
+        postaviNa(0,-5,0);
+        linijaDo(0,5,0);
+        
+        c2.strokeStyle = 'blue';
+        postaviNa(0,0,-5);
+        linijaDo(0,0,5);
+    }
+    
+    function kor_osi2()
+    {
+        c2.strokeStyle = 'green';
+        for(var a=-5;a<5;a=a+1)
+        {
+            postaviNa(a,0,0);
+            linijaDo(a+0.5,0,0);            
+        }
+        
+        c2.strokeStyle = 'purple';
+        for(var a=-5;a<5;a=a+1)
+        {
+            postaviNa(0,a,0);
+            linijaDo(0,a+0.5,0);            
+        }
+        
+        c2.strokeStyle = 'blue';
+        for(var a=-5;a<5;a=a+1)
+        {
+            postaviNa(0,0,a);
+            linijaDo(0,0,a+0.5);         
+        }
+        
     }
     
    function izradiMatricu(numrows, numcols, initial){
@@ -379,7 +457,7 @@
         x2 = x_to_pix(xLast2);
         y2 = y_to_pix(yLast2);
         
-        c2.lineWidth = 1;
+        c2.lineWidth = 1.5;
         c2.beginPath();        
         c2.moveTo(x1,y1);
         c2.lineTo(x2,y2);
